@@ -145,10 +145,13 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'oieZaQlc0PWHvytbLsES2YYq2eM',
 }
 
-# Pour Render
+# Pour Render (déploiement)
 if os.environ.get('RENDER'):
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+    DATABASES['default'] = dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 
     # Serve static files with Whitenoise
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')

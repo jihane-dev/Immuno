@@ -73,7 +73,7 @@ TEMPLATES = [
         },
     },
 ]
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'quiz_app/static')]
 
 
 WSGI_APPLICATION = 'quiz_project.wsgi.application'

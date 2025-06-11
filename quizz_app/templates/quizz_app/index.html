@@ -545,13 +545,19 @@
                                                 </div>
 
                                                 <!-- Barre de progression -->
-                                                <div class="progress-bar {% if resultat.score >= 75 %}bg-success{% elif resultat.score >= 50 %}bg-warning{% else %}bg-danger{% endif %}"
-                                                    role="progressbar"
-                                                    style="width: {{ resultat.score|default:0|floatformat:0 }}%;"
-                                                    aria-valuenow="{{ resultat.score|default:0 }}" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                <div class="progress mt-3" style="height: 6px;">
+                                                    <div class="progress-bar 
+                    {% if resultat.score >= 75 %}
+                        bg-success
+                    {% elif resultat.score >= 50 %}
+                        bg-warning
+                    {% else %}
+                        bg-danger
+                    {% endif %}" role="progressbar" style="width: {{ resultat.score|default:0|floatformat:0 }}%;"
+                                                        aria-valuenow="{{ resultat.score|default:0 }}" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                    </div>
                                                 </div>
-
 
                                                 <!-- Animation -->
                                                 <lottie-player

@@ -48,7 +48,6 @@ def accueil(request):
         'classement': classement, # 🆕
         'feedback_list': feedback_list
         
-
     })
 
 # Inscription

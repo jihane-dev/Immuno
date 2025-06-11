@@ -1,0 +1,22 @@
+databases:
+  - name: immuno-db
+    plan: free
+    databaseName: immuno-db
+    user: immuno_db_user
+
+services:
+  - type: web
+    plan: free
+    name: quiz_project
+    runtime: python
+    buildCommand: './build.sh'
+    startCommand: 'python -m gunicorn quiz_project.asgi:application -k uvicorn.workers.UvicornWorker'
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: quiz_project
+          property: connectionString
+      - key: django-insecure-@6(cu96#s#l)90kn9=600u*5b15j9ar%^8t&t$@4&z0t2wwq)&
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4

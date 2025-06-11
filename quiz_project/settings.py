@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-@6(cu96#s#l)90kn9=600u*5b15j9ar%^8t&t$@4&z0t2wwq)&
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['immunofun.onrender.com', '127.0.0.1', 'localhost']
 
 
 
@@ -85,17 +85,12 @@ WSGI_APPLICATION = 'quiz_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
-if os.environ.get('DATABASE_URL'):
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ['DATABASE_URL'], conn_max_age=600, ssl_require=True)
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgresql://immuno_db_user:hvZolSALGlrFqumViQkMuRXnKEMf2lLR@dpg-d14r7tm3jp1c73copcpg-a.oregon-postgres.render.com/immuno_db',
+        conn_max_age=600
+    )
+}
 
 
 
@@ -135,7 +130,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+if not DEBUG:
+    
+     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+     
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -147,7 +147,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'jihane.jaiit@gmail.com'
-EMAIL_HOST_PASSWORD = 'hkem gjiq hywa gfnt '
+EMAIL_HOST_PASSWORD = 'hkem gjiq hywa gfnt'
 
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -166,10 +166,9 @@ if os.environ.get('RENDER'):
         ssl_require=True
     )
 
-    # Serve static files with Whitenoise
-    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    # S'assurer que WhiteNoiseMiddleware est bien dans MIDDLEWARE
+    if 'whitenoise.middleware.WhiteNoiseMiddleware' not in MIDDLEWARE:
+        MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 if not DEBUG:
     LOGGING = {

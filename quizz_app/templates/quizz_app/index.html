@@ -13,7 +13,8 @@
     <title>Immuno-Fun</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/upcloudqr/image/upload/v1749649288/img/reading_mascotte_u0a5ti.png">
+    <link rel="icon" type="image/png"
+        href="https://res.cloudinary.com/upcloudqr/image/upload/v1749649288/img/reading_mascotte_u0a5ti.png">
 
 
 
@@ -75,7 +76,8 @@
     <div id="introModal" class="modal" style="display: none;">
         <div class="modal-content">
             <video id="introVideo" controls playsinline>
-                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641868/intro_ko0oxy.mp4" type="video/mp4">
+                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641868/intro_ko0oxy.mp4"
+                    type="video/mp4">
                 Ton navigateur ne supporte pas la vidéo.
             </video>
         </div>
@@ -176,7 +178,8 @@
                         </br>
 
                         <div id="welcome-mascotte">
-                            <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649252/img/happy_mascotte_zxsozh.png" alt="Mascotte" id="mascotte-img">
+                            <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649252/img/happy_mascotte_zxsozh.png"
+                                alt="Mascotte" id="mascotte-img">
                             <div id="welcome-msg">
                                 👋 Bienvenue {{ user.username }} !
                                 <div id="message-bulle" class="message-bulle">Quand t’es prêt(e) clique sur Quiz et que
@@ -219,36 +222,36 @@
                                         });
                                     });
                                 </script>
-                                
 
 
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
-                        </br>
 
-                        <h1 class="text-center searchable">Découvrir, Apprendre, S’amuser</h1>
-
-                        <h6 class="text-center searchable" style="color: #e0f7fa;">Plateforme d’apprentissage pour les
-                            3AC</h6>
-
-                        <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5 searchable" role="search">
-                            <div class="input-group input-group-lg searchable">
-                                <span class="input-group-text bi-search" id="basic-addon1">
-
-                                </span>
-
-                                <input name="keyword" type="search" class="form-control" id="keyword"
-                                    placeholder="Cellule,Immunité,Virus..." aria-label="Recherche">
-
-                                <button type="submit" class="form-control">Recherche</button>
-                            </div>
-                        </form>
                     </div>
-
                 </div>
+                </br>
+
+                <h1 class="text-center searchable">Découvrir, Apprendre, S’amuser</h1>
+
+                <h6 class="text-center searchable" style="color: #e0f7fa;">Plateforme d’apprentissage pour les
+                    3AC</h6>
+
+                <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5 searchable" role="search">
+                    <div class="input-group input-group-lg searchable">
+                        <span class="input-group-text bi-search" id="basic-addon1">
+
+                        </span>
+
+                        <input name="keyword" type="search" class="form-control" id="keyword"
+                            placeholder="Cellule,Immunité,Virus..." aria-label="Recherche">
+
+                        <button type="submit" class="form-control">Recherche</button>
+                    </div>
+                </form>
+            </div>
+
+            </div>
             </div>
         </section>
 
@@ -280,8 +283,8 @@
                     <div class="col-lg-6 col-12 searchable">
                         <div class="custom-block custom-block-overlay searchable">
                             <div class="d-flex flex-column h-100 searchable">
-                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648894/cellule_nlygcr.jpg" class="custom-block-image img-fluid"
-                                    alt="">
+                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648894/cellule_nlygcr.jpg"
+                                    class="custom-block-image img-fluid" alt="">
 
                                 <div class="custom-block-overlay-text d-flex searchable">
                                     <div>
@@ -318,8 +321,10 @@
 
                     <!-- Animation Lottie -->
                     <div class="col-lg-6 d-none d-lg-block text-end">
-                        <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644926/goal_bikufh.json" background="transparent"
-                            speed="1" style="max-width: 220px; height: 220px; margin-bottom: 20px;" loop autoplay>
+                        <lottie-player
+                            src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644926/goal_bikufh.json"
+                            background="transparent" speed="1"
+                            style="max-width: 220px; height: 220px; margin-bottom: 20px;" loop autoplay>
                         </lottie-player>
                     </div>
 
@@ -504,7 +509,8 @@
                                                         <small>Créé le {{ quiz.date_creation|date:"d M Y" }}</small>
                                                     </div>
                                                 </div>
-                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644978/Q_lkcnty.json"
+                                                <lottie-player
+                                                    src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644978/Q_lkcnty.json"
                                                     background="transparent" speed="1"
                                                     style="width: 100%; height: 150px;" loop autoplay>
                                                 </lottie-player>
@@ -539,22 +545,17 @@
                                                 </div>
 
                                                 <!-- Barre de progression -->
-                                                <div class="progress mt-3" style="height: 6px;">
-                                                    <div class="progress-bar 
-                    {% if resultat.score >= 75 %}
-                        bg-success
-                    {% elif resultat.score >= 50 %}
-                        bg-warning
-                    {% else %}
-                        bg-danger
-                    {% endif %}" role="progressbar" style="width: {{ resultat.score|default:0|floatformat:0 }}%;"
-                                                        aria-valuenow="{{ resultat.score|default:0 }}" aria-valuemin="0"
-                                                        aria-valuemax="100">
-                                                    </div>
+                                                <div class="progress-bar {% if resultat.score >= 75 %}bg-success{% elif resultat.score >= 50 %}bg-warning{% else %}bg-danger{% endif %}"
+                                                    role="progressbar"
+                                                    style="width: {{ resultat.score|default:0|floatformat:0 }}%;"
+                                                    aria-valuenow="{{ resultat.score|default:0 }}" aria-valuemin="0"
+                                                    aria-valuemax="100">
                                                 </div>
 
+
                                                 <!-- Animation -->
-                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749645039/quiz_i28fx6.json"
+                                                <lottie-player
+                                                    src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749645039/quiz_i28fx6.json"
                                                     background="transparent" speed="1"
                                                     style="width: 100%; height: 150px;" loop autoplay>
                                                 </lottie-player>
@@ -585,7 +586,8 @@
                                                     <span class="badge bg-advertising rounded-pill ms-auto">📌</span>
                                                 </div>
 
-                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749645091/reading_mascotte_adybte.json"
+                                                <lottie-player
+                                                    src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749645091/reading_mascotte_adybte.json"
                                                     background="transparent" style="width: 100%; height: 150px;" loop
                                                     autoplay>
                                                 </lottie-player>
@@ -606,7 +608,8 @@
                                                     <span class="badge bg-advertising rounded-pill ms-auto">✅</span>
                                                 </div>
 
-                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644895/cours_zqvh9i.json"
+                                                <lottie-player
+                                                    src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644895/cours_zqvh9i.json"
                                                     background="transparent" style="width: 100%; height: 150px;" loop
                                                     autoplay>
                                                 </lottie-player>
@@ -628,7 +631,8 @@
                                                 <span class="badge bg-advertising rounded-pill ms-auto">📨</span>
                                             </div>
 
-                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644951/proposer_qkdczi.json"
+                                            <lottie-player
+                                                src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644951/proposer_qkdczi.json"
                                                 background="transparent" style="width: 100%; height: 150px;" loop
                                                 autoplay>
                                             </lottie-player>
@@ -655,7 +659,8 @@
                                                 <span class="badge bg-finance rounded-pill ms-auto">🏆</span>
                                             </div>
 
-                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644881/classement_rzvkhf.json"
+                                            <lottie-player
+                                                src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644881/classement_rzvkhf.json"
                                                 background="transparent" style="width: 100%; height: 150px;" loop
                                                 autoplay>
                                             </lottie-player>
@@ -747,7 +752,8 @@
 
                                                 <span class="badge bg-music rounded-pill ms-auto">⭐</span>
                                             </div>
-                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644916/Feedback_cugskg.json"
+                                            <lottie-player
+                                                src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644916/Feedback_cugskg.json"
                                                 background="transparent" style="width: 100%; height: 150px;" loop
                                                 autoplay>
                                             </lottie-player>
@@ -765,7 +771,8 @@
                                                 </div>
                                                 <span class="badge bg-music rounded-pill ms-auto">⭐</span>
                                             </div>
-                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644904/F_tbbqvz.json"
+                                            <lottie-player
+                                                src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644904/F_tbbqvz.json"
                                                 background="transparent" style="width: 100%; height: 150px;" loop
                                                 autoplay>
                                             </lottie-player>
@@ -808,7 +815,8 @@
                                                 <span class="badge bg-education rounded-pill ms-auto">🧩 </span>
                                             </div>
 
-                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644936/jeu_rn4ak0.json"
+                                            <lottie-player
+                                                src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644936/jeu_rn4ak0.json"
                                                 background="transparent"
                                                 style="width: 120%; height: 300px; margin-left: -50px; " loop autoplay>
                                             </lottie-player>
@@ -863,7 +871,8 @@
                                                 <span class="badge bg-education rounded-pill ms-auto">🎮</span>
                                             </div>
 
-                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644942/play_cdwhut.json"
+                                            <lottie-player
+                                                src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644942/play_cdwhut.json"
                                                 background="transparent"
                                                 style="width: 130%; height: 250px; margin-left: -100px; margin-top: -20px;"
                                                 loop autoplay>
@@ -878,8 +887,8 @@
 
                                         <div class="drop-infos d-flex justify-content-around flex-wrap mb-3">
                                             <div class="drop-zone" data-correct="Macrophage">
-                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648972/drop/macrophage_mgg6vm.jpg" alt="Macrophage"
-                                                    class="drop-image">
+                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648972/drop/macrophage_mgg6vm.jpg"
+                                                    alt="Macrophage" class="drop-image">
                                             </div>
                                             <div class="drop-zone" data-correct="Lymphocyte T">
                                                 <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648970/drop/lymphocyte_t_wohdeh.jpg"
@@ -887,8 +896,8 @@
                                             </div>
 
                                             <div class="drop-zone" data-correct="Anticorps">
-                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648969/drop/anticorps_rscoxn.png" alt="Anticorps"
-                                                    class="drop-image">
+                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648969/drop/anticorps_rscoxn.png"
+                                                    alt="Anticorps" class="drop-image">
                                             </div>
 
                                         </div>
@@ -928,7 +937,8 @@
                     <div class="clearfix"></div>
 
                     <div class="col-lg-5 col-12">
-                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648896/faq_graphic_fy3tyi.jpg" class="img-fluid" alt="FAQs">
+                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648896/faq_graphic_fy3tyi.jpg"
+                            class="img-fluid" alt="FAQs">
                     </div>
 
                     <div id="faq" class="col-lg-6 col-12 m-auto">
@@ -1014,8 +1024,9 @@
                     </div>
                     <div
                         class="col-lg-4 col-12 d-flex justify-content-center align-items-center mb-4 mb-lg-0 position-relative">
-                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649285/img/terre_mascotte_jqg2tj.png" alt="Mascotte Contact"
-                            class="rotating-mascotte" style="max-width: 260px; height: auto;" id="contactMascotte">
+                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649285/img/terre_mascotte_jqg2tj.png"
+                            alt="Mascotte Contact" class="rotating-mascotte" style="max-width: 260px; height: auto;"
+                            id="contactMascotte">
 
                         <div class="bubble-message" id="contactBubble">
                             👋 Coucou, tu veux m’écrire ?
@@ -1553,7 +1564,8 @@
         <h5 class="text-center mb-3">🎥 Tutoriel</h5>
         <div class="video-container text-center">
             <video id="tutorielVideo" controls width="100%" style="max-width: 500px;">
-                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641922/tutoriel_be4wkv.mp4" type="video/mp4">
+                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641922/tutoriel_be4wkv.mp4"
+                    type="video/mp4">
                 Votre navigateur ne supporte pas la lecture vidéo.
             </video>
         </div>

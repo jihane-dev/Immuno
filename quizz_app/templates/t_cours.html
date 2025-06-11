@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cours - Immunologie</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .quiz-button {
+            display: none;
+            margin-left: 30px;
+            text-align: center;
+        }
+
+        .quiz-button a {
+            background-color: #218689;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .quiz-button a:hover {
+            background-color: #0d5d5d;
+        }
+
+        body {
+            background-color: white;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .page {
+            cursor: pointer;
+            /* curseur en main */
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(to right, #84c291, #5ac2bb, white);
+            color: black;
+            padding: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 30px;
+        }
+
+        /* Flipbook Container */
+        .book-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            perspective: 1500px;
+            /* ajoute de la profondeur 3D */
+
+        }
+
+        .page {
+            width: 900px;
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            /* curseur main */
+            position: relative;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .book-controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .book-controls button {
+            background-color: #35a7b8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-controls button:hover {
+            background-color: #5dd2d2;
+        }
+
+        /* Mascotte intro */
+        .mascotte-popup {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #e9f4f3;
+            border: 2px solid #032828;
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 1000;
+            font-size: 20px;
+            animation: fadeOut 1s ease-out 3s forwards;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Ajout d’une ombre dynamique pendant la rotation */
+        .page.flipping {
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .btn-return,
+        .btn-return-footer {
+            background-color: white;
+            color: #218689;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 15px;
+            display: inline-block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-return:hover,
+        .btn-return-footer:hover {
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="banner">
+        <a href="{% url 'l_cours' %}" class="btn-return">⬅️ Retour à la liste des cours</a>
+        📖 Lisez le cours Immunologie
+    </div>
+
+
+    <!-- Mascotte intro -->
+    <div class="mascotte-popup" id="mascotteIntro">
+        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649288/img/reading_mascotte_u0a5ti.png" alt="Mascotte en train de lire"
+            style="width: 80px; vertical-align: middle; margin-right: 10px;">
+        Révisons ensemble !
+    </div>
+
+
+    <!-- Livre interactif -->
+    <div class="book-container">
+        <div id="page" class="page" url('https://res.cloudinary.com/upcloudqr/image/upload/v1749648986/livre/page1_cihwaz.png');"></div>
+        <div id="quizButton" style="display: none; text-align: center; margin-top: 20px;">
+            <a href="{% url 'passer_quiz' 1 %}" class="btn-return" style="font-size: 18px;">📝 Passer au quiz</a>
+
+        </div>
+    </div>
+
+    <div class="book-controls">
+        <button onclick="prevPage()">⬅️ Précédent</button>
+        <button onclick="nextPage()">Suivant ➡️</button>
+    </div>
+    <footer
+        style="text-align: center; margin-top: 40px; padding: 20px; background-color: #007bff; border-radius: 15px 15px 0 0;">
+        <a href="{% url 'accueil' %}" class="btn-return-footer">🏠 Retour à l’accueil</a>
+    </footer>
+
+    <script>
+        const pages = [
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749648986/livre/page1_cihwaz.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649009/livre/page2_vyhi9b.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649034/livre/page3_haxzux.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649057/livre/page4_cmcsc6.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649066/livre/page5_yutre0.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649076/livre/page6_zdmrfy.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649078/livre/page7_up3xqj.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649072/livre/page8_p0pbsi.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649075/livre/page9_mgbomt.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749648987/livre/page10_uokdrh.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749648989/livre/page11_g6wx3a.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749648995/livre/page12_bfvpte.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649009/livre/page13_kjq5f5.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749648996/livre/page14_hqaaml.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649003/livre/page15_r0e1an.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649004/livre/page16_q1fawi.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649022/livre/page17_sfjolp.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649009/livre/page18_iuypu7.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649008/livre/page19_vj6ypv.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649013/livre/page20_b9a8dn.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649016/livre/page21_wbky9u.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649022/livre/page22_hsiwmm.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649024/livre/page23_ozi8fx.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649018/livre/page24_fbibdf.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649024/livre/page25_vddnug.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649021/livre/page26_ronw7s.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649022/livre/page27_xxe4vo.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649032/livre/page28_bxqsvb.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649031/livre/page29_arqzix.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649032/livre/page30_n3ujvy.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649048/livre/page31_e2k42b.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649049/livre/page32_rzs430.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649036/livre/page33_k8zazi.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649040/livre/page34_ccb2vm.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649048/livre/page35_tqbrko.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649048/livre/page36_ky6zqz.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649040/livre/page37_jm6k5q.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649050/livre/page38_rb5fvj.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649053/livre/page39_jrxcit.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649057/livre/page40_vnmvog.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649066/livre/page41_tptaao.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649065/livre/page42_eejgnu.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649068/livre/page43_cnjici.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649068/livre/page44_k9dthl.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649063/livre/page45_r2wuw0.png",
+            "https://res.cloudinary.com/upcloudqr/image/upload/v1749649065/livre/page46_i8inxu.png",
+
+        ];
+
+        let currentPage = 0;
+        const pageEl = document.getElementById("page");
+
+        function nextPage() {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                pageEl.classList.add('flipping');
+                pageEl.style.transform = "rotateY(-180deg)";
+                setTimeout(() => {
+                    pageEl.style.backgroundImage = `url('${pages[currentPage]}')`;
+                    pageEl.style.transform = "rotateY(0deg)";
+                    setTimeout(() => {
+                        pageEl.classList.remove('flipping');
+                        checkQuizButton();
+                    }, 600);
+                }, 300);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                pageEl.classList.add('flipping');
+                pageEl.style.transform = "rotateY(180deg)";
+                setTimeout(() => {
+                    pageEl.style.backgroundImage = `url('${pages[currentPage]}')`;
+                    pageEl.style.transform = "rotateY(0deg)";
+                    setTimeout(() => {
+                        pageEl.classList.remove('flipping');
+                        checkQuizButton();
+                    }, 600);
+                }, 300);
+            }
+        }
+
+        function checkQuizButton() {
+            const quizButton = document.getElementById("quizButton");
+            if (currentPage === 45) {  // Index 45 correspond à page46.png
+                quizButton.style.display = "block";
+            } else {
+                quizButton.style.display = "none";
+            }
+        }
+
+
+
+        // Masquer la mascotte après 3s
+        setTimeout(() => {
+            document.getElementById('mascotteIntro').style.display = 'none';
+        }, 3000);
+    </script>
+</body>
+
+
+</html>

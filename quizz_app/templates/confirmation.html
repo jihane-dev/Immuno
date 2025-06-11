@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenue sur Immuno-Fun</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <style>
+        /* Animation de la bulle */
+        #introBubbleContainer {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
+
+        #introBubbleContainer.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Modale vidéo */
+        #introModal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #introModal .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        #introVideo {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Mise en page */
+        body {
+            background-color: #f5f9ff;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .confirmation-wrapper {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .confirmation-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .text-part {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .text-part h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .btn-immuno {
+            margin: 10px 10px 0 0;
+            padding: 12px 25px;
+            font-size: 16px;
+        }
+
+        .mascotte-img {
+            flex: 1;
+            max-width: 250px;
+            min-width: 200px;
+        }
+
+        .mascotte-img img {
+            width: 100%;
+            height: auto;
+        }
+
+        @media screen and (max-width: 768px) {
+            .confirmation-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ✅ Bulle d'affichage de la vidéo -->
+    <div id="introBubbleContainer" class="visible">
+        <div class="bubble-intro"
+            style="background-color: #fff8e1; border: 2px solid #ffca28; padding: 10px 15px; border-radius: 20px; font-weight: bold;">
+            🎬 Clique ici pour voir la vidéo introductive !
+        </div>
+        <button id="showIntroVideo" class="btn btn-warning btn-sm mt-2">▶️ Voir la vidéo</button>
+    </div>
+
+    <!-- ✅ Modale vidéo -->
+    <div id="introModal" class="modal">
+        <div class="modal-content">
+            <video id="introVideo" controls playsinline>
+                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641868/intro_ko0oxy.mp4" type="video/mp4">
+                Ton navigateur ne supporte pas la vidéo.
+            </video>
+        </div>
+    </div>
+
+    <!-- ✅ Contenu principal -->
+    <div class="confirmation-wrapper">
+        <div class="confirmation-content">
+
+            <!-- Texte -->
+            <div class="text-part">
+                <h2>🎉 Votre compte a bien été créé !</h2>
+                <p>Bienvenue sur <strong>Immuno-Fun</strong>, la plateforme ludique pour apprendre l'immunologie en 3AC
+                    !</p>
+                <a href="{% url 'accueil' %}" class="btn btn-outline-primary btn-immuno">🏠 Accueil</a>
+                <a href="{% url 'liste_quiz' %}" class="btn btn-primary btn-immuno">🚀 Commencer le Quiz</a>
+            </div>
+
+            <!-- Image mascotte -->
+            <div class="mascotte-img">
+                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649285/img/terre_mascotte_jqg2tj.png" alt="Mascotte Immuno-Fun">
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const bubble = document.getElementById("introBubbleContainer");
+            const videoModal = document.getElementById("introModal");
+            const video = document.getElementById("introVideo");
+            const openBtn = document.getElementById("showIntroVideo");
+
+            function showModal() {
+                videoModal.style.display = "flex";
+                video.play();
+                bubble.classList.remove("visible"); // Cacher la bulle
+            }
+
+            function hideModal() {
+                video.pause();
+                videoModal.style.display = "none";
+                bubble.classList.add("visible"); // Réafficher la bulle
+            }
+
+            if (openBtn && video && videoModal) {
+                openBtn.addEventListener("click", showModal);
+                video.addEventListener("ended", hideModal);
+                videoModal.addEventListener("click", (e) => {
+                    if (e.target === videoModal) hideModal();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Création de compte</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header avec mascotte + texte + lien */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .mascotte {
+      width: 120px;
+      animation: clignote 1.2s infinite;
+    }
+
+    .header-text {
+      flex-grow: 1;
+      margin-left: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2b8a3e;
+    }
+
+    a.login-link {
+      color: #2b8a3e;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+
+    a.login-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Container centré */
+    .container {
+      background: white;
+      padding: 2.5rem 4rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      /* un peu plus large */
+      margin: 3rem auto;
+    }
+
+    form p {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    /* Input & bouton */
+    input,
+    button {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+
+    /* Bulles d’instruction (tooltip) */
+    input[title] {
+      position: relative;
+    }
+
+    input[title]:hover::after,
+    input[title]:focus::after {
+      content: attr(title);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translate(10px, -50%);
+      background: #2b8a3e;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-style: italic;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 1;
+      z-index: 10;
+    }
+
+    /* Cache la bulle par défaut */
+    input[title]::after {
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    /* Focus champ: change couleur de bordure et fond */
+    input:focus {
+      outline: none;
+      border-color: #2b8a3e;
+      background-color: #e6f4ea;
+    }
+
+    /* Bouton */
+    button {
+      background-color: #2b8a3e;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #237033;
+    }
+
+    /* Animation mascotte */
+    @keyframes clignote {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649179/img/mascotte_mbochi.png" alt="Mascotte Immuno-Fun" class="mascotte" />
+    <div class="header-text">
+      Rejoins Immuno-Fun, <strong> crée ton compte et amuse-toi !</strong> !
+    </div>
+    <a href="{% url 'login' %}" class="login-link">Déjà inscrit ? Se connecter</a>
+  </header>
+
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      {# Pour chaque champ, ajoute un title pour la bulle d’instruction #}
+      {% for field in form %}
+      <p>
+        {{ field.label_tag }}
+        {{ field }}
+      </p>
+      {% endfor %}
+
+      <!-- ✅ Lien pour lire les conditions -->
+      <p style="font-size: 14px;">
+        📜 <a href="#" id="readConditionsLink">Lire les conditions d'utilisation</a>
+      </p>
+
+      <!-- ✅ Case à cocher obligatoire -->
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" value="" id="acceptTerms">
+        <label class="form-check-label" for="acceptTerms">
+          J'accepte les conditions d'utilisation
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="registerBtn" disabled>S'inscrire</button>
+      <div id="conditionsModal" style="
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center; align-items: center;
+    z-index: 9999;">
+        <div
+          style="background: white; padding: 30px; border-radius: 15px; max-width: 700px; width: 90%; position: relative;">
+          <button id="closeConditions" style="
+            position: absolute; top: 10px; right: 15px;
+            border: none; background: transparent;
+            font-size: 24px; cursor: pointer;">&times;</button>
+
+          <h4>📜 Conditions d’utilisation</h4>
+          <ul style="padding-left: 1.2rem; margin-top: 15px;">
+            <li>Tu t’engages à utiliser cette plateforme uniquement à des fins éducatives.</li>
+            <li>Il est interdit de copier ou redistribuer le contenu sans autorisation.</li>
+            <li>Aucune donnée personnelle n’est collectée ou partagée.</li>
+            <li>Ce site est gratuit et peut évoluer à tout moment.</li>
+          </ul>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+
+    document.querySelectorAll('form p input, form p select, form p textarea').forEach(input => {
+      if (input.name === "username") input.title = "Choisis un nom d'utilisateur unique.";
+      else if (input.name === "password1") input.title = "Le mot de passe doit contenir au moins 8 caractères.";
+      else if (input.name === "password2") input.title = "Confirme ton mot de passe.";
+      else if (input.name === "email") input.title = "Entre une adresse email valide.";
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const readLink = document.getElementById("readConditionsLink");
+      const modal = document.getElementById("conditionsModal");
+      const closeBtn = document.getElementById("closeConditions");
+      const checkbox = document.getElementById("acceptTerms");
+      const submitBtn = document.getElementById("registerBtn");
+
+      // 📜 Ouvre la bulle
+      readLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        modal.style.display = "flex";
+      });
+
+      // ❌ Ferme la bulle
+      closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+
+      // ✅ Active le bouton que si coché
+      checkbox.addEventListener("change", () => {
+        submitBtn.disabled = !checkbox.checked;
+      });
+    });
+  </script>
+
+</body>
+
+</html>

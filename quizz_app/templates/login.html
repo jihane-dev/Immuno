@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Immuno-Fun</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        /* Style général des champs */
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 16px;
+        }
+
+        /* Même hauteur et alignement */
+        .login-form input {
+            height: 50px;
+            box-sizing: border-box;
+        }
+
+        /* Effet au focus */
+        .login-form input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+            outline: none;
+            background-color: #f6fff8;
+        }
+
+        @keyframes bounceMascotte {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .mascotte-bounce {
+            animation: bounceMascotte 0.6s ease-in-out infinite;
+        }
+
+
+        body {
+            background: #f0f8ff;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .login-form {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .mascotte-side {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mascotte-side img {
+            max-width: 250px;
+            height: auto;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 25px;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            border: none;
+        }
+
+        .register-link {
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .mascotte-side {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Formulaire -->
+        <div class="login-form">
+            <h2>Se connecter</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+            </form>
+
+            <a href="{% url 'register' %}" class="register-link">👉 Pas encore de compte ? Créer un compte</a>
+        </div>
+
+        <!-- Mascotte -->
+        <div class="mascotte-side">
+            <img id="mascotte" src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649179/img/mascotte_mbochi.png" alt="Mascotte Immuno-Fun" style="width: 300px;">
+
+
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputs = document.querySelectorAll('input');
+            const mascotte = document.getElementById('mascotte');
+            let typingTimer;
+
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    mascotte.classList.add('mascotte-bounce');
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(() => {
+                        mascotte.classList.remove('mascotte-bounce');
+                    }, 800); // arrêt après 800ms d'inactivité
+                });
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>

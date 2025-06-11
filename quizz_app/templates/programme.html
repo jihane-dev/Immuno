@@ -1,0 +1,345 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Programme SVT - Immuno-Fun</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 💚 Top Banner avec mascotte et mini menu alignés -->
+    <div class="top-banner d-flex justify-content-between align-items-center px-4 py-2 mb-4">
+        <!-- Mascotte -->
+        <div class="mascotte-rotation d-flex align-items-center">
+            <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649252/img/happy_mascotte_zxsozh.png"
+                alt="Mascotte" class="rotating-mascotte" width="60">
+            <h2 class="text-white ms-3 mb-0 programme-titre">Programme SVT - 3AC</h2>
+
+        </div>
+
+        <style>
+            .programme-titre {
+                font-size: 2rem;
+                font-weight: bold;
+                white-space: nowrap;
+                max-width: 100%;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            }
+
+            .top-banner {
+                background: linear-gradient(45deg, #81d19c, #5da0af, white);
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                position: relative;
+            }
+
+            .rotating-mascotte {
+                animation: rotateMascotte 8s linear infinite;
+            }
+
+            @keyframes rotateMascotte {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+        <!-- 💡 Mini-menu : se connecter / se déconnecter -->
+        <div class="container mt-3 text-end">
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-link p-0 border-0 dropdown-toggle" id="dropdownUserBtn" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="font-size: 1.8rem; color: rgb(15, 128, 0);">
+                    <i class="bi bi-person"></i>
+                </button>
+
+                <ul class="dropdown-menu shadow dropdown-menu-end"
+                    style="font-size: 0.75rem; padding: 0.3rem 0.5rem; min-width: 140px; transform: translateX(-40%);">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <span class="dropdown-item-text text-muted" style="font-size: 0.85rem;">
+                            👋 Bonjour {{ user.username }}
+                        </span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider my-1">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{% url 'login' %}">Se connecter</a></li>
+                    <li><a class="dropdown-item" href="{% url 'register' %}">S’inscrire</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .mascotte-bulle-container {
+            position: relative;
+            text-align: right;
+            margin-top: -100px;
+            /* ✅ Remonte un peu l'ensemble */
+            margin-bottom: 20px;
+        }
+
+        .mascotte-clickable {
+            width: 80px;
+            cursor: pointer;
+            animation: jumpMascotte 1s ease-in-out infinite;
+        }
+
+        @keyframes jumpMascotte {
+            0% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-25px);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            70% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .bulle-mascotte {
+            background-color: #fffde7;
+            color: #5d4037;
+            border: 2px solid #fdd835;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: absolute;
+            top: -45px;
+            right: 90px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            animation: fadeIn 1s ease-in;
+        }
+    </style>
+
+    <div class="container mt-5">
+
+        <!-- 🔙 Bouton retour -->
+        <div class="mb-4">
+            <a href="{% url 'accueil' %}" class="btn btn-secondary">⬅️ Retour à l’accueil</a>
+        </div>
+
+        <!-- 📅 Section 1 : Planification annuelle -->
+        <div class="card mb-5">
+            <div class="card-header bg-primary text-white">📅 Planification annuelle - 3AC SVT</div>
+            <div class="card-body">
+                <p>Consultez le document de planification annuelle SVT :</p>
+                <div id="planificationSlide" class="text-center">
+                    <img id="slideImage" src="https://res.cloudinary.com/upcloudqr/image/upload/v1749654277/planification1_qu5tyi.jpg" alt="Planification Annuelle 1"
+                        style="  transform: 0,3s; width:60%; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);"
+                        onclick="toggleImage()">
+                </div>
+
+                <script>
+                    const images = [
+                        "https://res.cloudinary.com/upcloudqr/image/upload/v1749654277/planification1_qu5tyi.jpg",
+                        "https://res.cloudinary.com/upcloudqr/image/upload/v1749654284/planification2_gprjku.jpg"
+                    ];
+                    let currentIndex = 0;
+
+                    function toggleImage() {
+                        currentIndex = (currentIndex + 1) % images.length;
+                        document.getElementById("slideImage").src = images[currentIndex];
+                    }
+                </script>
+
+
+                <!-- 🗓️ Section 2 : Calendrier Google -->
+                <div class="card mb-5">
+                    <div class="card-header bg-success text-white">🏖️ Calendrier des Vacances</div>
+                    <div class="card-body">
+                        <p>Voici votre calendrier pour suivre les vacances scolaires :</p>
+                        <div class="calendar-container" style="overflow:hidden; border-radius: 10px;">
+                            <iframe
+                                src="https://calendar.google.com/calendar/embed?src=fr.ma%23holiday%40group.v.calendar.google.com&ctz=Africa%2FCasablanca"
+                                style="border:0" width="100%" height="600" frameborder="0" scrolling="no">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    .calendar-container {
+                        border: 4px solid #a5d6a7;
+                        border-radius: 15px;
+                        overflow: hidden;
+                        box-shadow: 0 8px 16px rgba(0, 128, 0, 0.1);
+                        transition: transform 0.3s ease;
+                        width: 100%;
+                        max-width: 100%;
+                    }
+
+                    .calendar-container:hover {
+                        transform: scale(1.01);
+                        box-shadow: 0 12px 24px rgba(0, 128, 0, 0.15);
+                    }
+
+                    .calendar-container iframe {
+                        width: 100%;
+                        height: 600px;
+                        border: none;
+                    }
+                </style>
+
+
+                <!-- 🧬 Section 3 : Chapitre Immunologie -->
+                <div class="card mb-5" id="chapitreImmunologieCard">
+                    <div class="card-header bg-danger text-white">🧬 Chapitre Immunologie</div>
+                    <div class="card-body">
+                        <p>Explorez les différentes parties du chapitre Immunologie :</p>
+                        <ul>
+                            <li>🔸 Les microorganismes</li>
+                            <li>🔸 Introduction à l’immunologie</li>
+                            <li>🔸 Immunité innée</li>
+                            <li>🔸 Immunité adaptative</li>
+                            <li>🔸 Réponse immunitaire spécifique</li>
+                            <li>🔸 Défaillance du système immunitaire</li>
+                            <li>🔸 Hygiène de l’appareil génitale et transfusion sanguine</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Mascotte flottante à gauche -->
+                <div class="floating-mascotte-container" id="floatingMascotte" style="display: none;">
+                    <div class="position-relative d-inline-block">
+                        <div class="bulle-mascotte" id="bulleStudy">🧠 Clique ici pour commencer à étudier !</div>
+                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649288/img/reading_mascotte_u0a5ti.png"
+                            alt="Mascotte2" class="mascotte-clickable" id="startStudyMascotte">
+                    </div>
+                </div>
+
+
+
+                <style>
+                    .floating-mascotte-container {
+                        position: fixed;
+                        top: 50%;
+                        right: -90px;
+                        transform: translateY(-50%);
+                        z-index: 1000;
+                        transition: right 0.3s ease-in-out;
+                    }
+
+                    .floating-mascotte-container.visible {
+                        right: 20px;
+                    }
+
+                    .mascotte-clickable {
+                        width: 80px;
+                        cursor: pointer;
+                        animation: jumpMascotte 1s ease-in-out infinite;
+                    }
+
+                    @keyframes jumpMascotte {
+                        0% {
+                            transform: translateY(0);
+                        }
+
+                        30% {
+                            transform: translateY(-25px);
+                        }
+
+                        50% {
+                            transform: translateY(0);
+                        }
+
+                        70% {
+                            transform: translateY(-15px);
+                        }
+
+                        100% {
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .bulle-mascotte {
+                        background-color: #fffde7;
+                        color: #5d4037;
+                        border: 2px solid #fdd835;
+                        padding: 10px 15px;
+                        border-radius: 15px;
+                        position: absolute;
+                        top: 10px;
+                        right: 100%;
+                        margin-right: 10px;
+                        font-weight: bold;
+                        white-space: nowrap;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        animation: fadeIn 1s ease-in;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-10px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                </style>
+            </div>
+
+            <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const mascotte = document.getElementById("startStudyMascotte");
+                    const mascotteContainer = document.getElementById("floatingMascotte");
+                    const chapitreCard = document.getElementById("chapitreImmunologieCard");
+
+                    let hideTimeout;
+
+                    chapitreCard.addEventListener("mouseenter", () => {
+                        mascotteContainer.style.display = "block";
+                        setTimeout(() => {
+                            mascotteContainer.classList.add("visible");
+                        }, 10);
+
+                        clearTimeout(hideTimeout); // si l’utilisateur repasse la souris, on annule l’ancien timer
+
+                        hideTimeout = setTimeout(() => {
+                            mascotteContainer.classList.remove("visible");
+                            setTimeout(() => {
+                                mascotteContainer.style.display = "none";
+                            }, 300); // attendre la transition avant de le cacher
+                        }, 120000); // 2 minutes
+                    });
+
+                    mascotte.addEventListener("click", () => {
+                        window.location.href = "{% url 'accueil' %}#section_4";
+                    });
+                });
+            </script>
+
+
+
+
+</body>
+
+</html>

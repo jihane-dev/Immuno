@@ -1,0 +1,20 @@
+# Ignorer le dossier static2 (vidéos, animations, images lourdes)
+static2/
+
+# Ignorer les environnements virtuels
+env/
+venv/
+
+# Ignorer la base de données SQLite si tu en as une
+db.sqlite3
+
+# Ignorer les logs et fichiers temporaires
+*.log
+*.tmp
+
+# Ignorer fichiers système (macOS, Windows)
+.DS_Store
+Thumbs.db
+
+# Ignorer media si tu veux
+media/

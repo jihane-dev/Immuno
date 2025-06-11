@@ -1,0 +1,1587 @@
+<!doctype html>
+<html lang="fr">
+<!-- CSS FILES and animations -->
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Immuno-Fun</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/upcloudqr/image/upload/v1749649288/img/reading_mascotte_u0a5ti.png">
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/templatemo-topic-listing.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+
+    <style>
+        #introBubbleContainer {
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+            /* désactive le clic quand caché */
+        }
+
+        #introBubbleContainer.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+
+
+
+</head>
+
+
+<body id="top">
+
+    {% if user.is_authenticated %}
+    <!-- ✅ Bulle d'affichage de la vidéo -->
+    <div id="introBubbleContainer" class="visible" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+        <div class="bubble-intro"
+            style="background-color: #fff8e1; border: 2px solid #ffca28; padding: 10px 15px; border-radius: 20px; font-weight: bold;">
+            🎬 Clique ici pour voir la vidéo introductive !
+        </div>
+        <button id="showIntroVideo" class="btn btn-warning btn-sm mt-2">▶️ Voir la vidéo</button>
+    </div>
+
+    <!-- ✅ Modale vidéo -->
+    <div id="introModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <video id="introVideo" controls playsinline>
+                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641868/intro_ko0oxy.mp4" type="video/mp4">
+                Ton navigateur ne supporte pas la vidéo.
+            </video>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="bubble-msg" id="loginWarning">
+        🔒 Connecte-toi pour voir la vidéo d’intro.
+    </div>
+    {% endif %}
+
+
+
+
+    <main>
+
+        <nav class="navbar navbar-expand-lg searchable">
+            <div class="container searchable">
+                <a class="navbar-brand" href="index.html">
+                    <i class="bi-back searchable"></i>
+                    <span>Immuno-Fun </span>
+                </a>
+
+                <div class="d-lg-none ms-auto me-4 searchable">
+                    <a href="#top" class="navbar-icon bi-person smoothscroll searchable"></a>
+                </div>
+
+                <button class="navbar-toggler searchable" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon searchable"></span>
+                </button>
+
+                <div class="collapse navbar-collapse searchable" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-5 me-lg-auto searchable">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll searchable" href="#section_1">Accueil</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll searchable" href="#section_2">Objectifs</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll searchable" href="#section_3">Instructions</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll searchable" href="#section_4">Quiz</a>
+                        </li>
+
+                        <li class="nav-item searchable">
+                            <a class="nav-link searchable" href="{% url 'programme' %}">Programme</a>
+                        </li>
+
+                    </ul>
+
+
+                    <div class="dropdown d-none d-lg-block" style="position: relative;">
+                        <button class="btn btn-link p-0 border-0 dropdown-toggle" id="dropdownUserBtn"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="font-size: 1.8rem; color: rgb(15, 128, 0);">
+                            <i class="bi bi-person"></i>
+                        </button>
+
+                        <ul class="dropdown-menu shadow dropdown-menu-center" id="dropdownUserMenu"
+                            style="font-size: 0.75rem; padding: 0.3rem 0.5rem; min-width: 140px; transform: translateX(-40%);">
+
+                            {% if user.is_authenticated %}
+                            <li>
+                                <span class="dropdown-item-text text-muted" style="font-size: 0.85rem;">
+                                    👋 Bonjour {{ user.username }}
+                                </span>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider my-1">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Se connecter</a></li>
+                            <li><a class="dropdown-item" href="{% url 'register' %}">S’inscrire</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </nav>
+
+
+        <section class="hero-section d-flex justify-content-center align-items-center searchable" id="section_1">
+            <div class="container searchable">
+                <div class="row searchable">
+
+                    <div class="col-lg-8 col-12 mx-auto">
+                        </br>
+
+                        <div id="welcome-mascotte">
+                            <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649252/img/happy_mascotte_zxsozh.png" alt="Mascotte" id="mascotte-img">
+                            <div id="welcome-msg">
+                                👋 Bienvenue {{ user.username }} !
+                                <div id="message-bulle" class="message-bulle">Quand t’es prêt(e) clique sur Quiz et que
+                                    le
+                                    FUN commence!!!</div>
+                                <script>
+                                    window.addEventListener("DOMContentLoaded", () => {
+                                        const welcome = document.getElementById("welcome-mascotte");
+                                        const accueilSection = document.getElementById("section_1");
+                                        const bulle = document.getElementById("message-bulle");
+
+                                        function checkVisibility() {
+                                            const rect = accueilSection.getBoundingClientRect();
+                                            if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+                                                // Section accueil visible : faire apparaître la mascotte
+                                                welcome.style.display = "flex";
+                                                welcome.classList.remove("hide-mascotte");
+                                                welcome.style.opacity = 1;
+                                                welcome.style.transform = "translateY(0) translateX(-50%)";
+                                            } else {
+                                                // Section accueil non visible : faire disparaître la mascotte avec animation
+                                                if (!welcome.classList.contains("hide-mascotte")) {
+                                                    welcome.classList.add("hide-mascotte");
+                                                    bulle.classList.remove("show"); // cacher la bulle si visible
+                                                    setTimeout(() => {
+                                                        welcome.style.display = "none";
+                                                    }, 500); // durée de l'animation en ms
+                                                }
+                                            }
+                                        }
+
+                                        window.addEventListener("scroll", checkVisibility);
+                                        checkVisibility(); // vérification au chargement
+
+                                        // Ajout gestion clic mascotte pour afficher/cacher la bulle
+                                        welcome.addEventListener("click", () => {
+                                            if (bulle) {
+                                                bulle.classList.toggle("show");
+                                            }
+                                        });
+                                    });
+                                </script>
+                                
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        </br>
+
+                        <h1 class="text-center searchable">Découvrir, Apprendre, S’amuser</h1>
+
+                        <h6 class="text-center searchable" style="color: #e0f7fa;">Plateforme d’apprentissage pour les
+                            3AC</h6>
+
+                        <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5 searchable" role="search">
+                            <div class="input-group input-group-lg searchable">
+                                <span class="input-group-text bi-search" id="basic-addon1">
+
+                                </span>
+
+                                <input name="keyword" type="search" class="form-control" id="keyword"
+                                    placeholder="Cellule,Immunité,Virus..." aria-label="Recherche">
+
+                                <button type="submit" class="form-control">Recherche</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section class="featured-section searchable">
+            <div class="container searchable">
+                <div class="row justify-content-center searchable">
+
+                    <div class="col-lg-4 col-12 mb-4 mb-lg-0 searchable">
+                        <div class="custom-block bg-white shadow-lg searchable">
+
+                            <div class="d-flex">
+                                <div>
+                                    <h5 class="mb-2 searchable">Quiz & Révision</h5>
+
+                                    <p class="mb-0">
+                                    <p>En 3AC ? Préparez gratuitement votre examen régional sur cette plateforme !</p>
+                                </div>
+
+                                <span class="badge bg-design rounded-pill ms-auto searchable">🧩</span>
+                            </div>
+
+                            <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648930/topics/undraw_Graduation_re_gthn_izwbsr.png"
+                                class="custom-block-image img-fluid">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-12 searchable">
+                        <div class="custom-block custom-block-overlay searchable">
+                            <div class="d-flex flex-column h-100 searchable">
+                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648894/cellule_nlygcr.jpg" class="custom-block-image img-fluid"
+                                    alt="">
+
+                                <div class="custom-block-overlay-text d-flex searchable">
+                                    <div>
+                                        <h5 class="text-white mb-2 searchable">Immunologie </h5>
+
+                                        <p class="text-white searchable">Ce chapitre appartient à la deuxième unité.
+                                            Utilise cette plateforme pour réviser en t’amusant et t’auto-évaluer
+                                            facilement à travers des quiz et des ressources interactives !</p>
+
+                                        <a href="#" id="openVideoPopup" class="btn custom-btn mt-2 mt-lg-3">Tutoriel</a>
+
+                                    </div>
+
+                                    <span class="badge bg-finance rounded-pill ms-auto">👩‍🏫 </span>
+                                </div>
+
+
+
+                                <div class="section-overlay"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="timeline-section section-padding" id="section_2" style="background-color: white;">
+            <div class="container">
+                <div class="row align-items-center">
+
+                    <div class="col-lg-6 col-12 text-center text-lg-start searchable">
+                        <h2 class="mb-4 text-dark text-center" style="margin-top: 0;">Nos objectifs Pédagogiques?</h2>
+                    </div>
+
+                    <!-- Animation Lottie -->
+                    <div class="col-lg-6 d-none d-lg-block text-end">
+                        <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644926/goal_bikufh.json" background="transparent"
+                            speed="1" style="max-width: 220px; height: 220px; margin-bottom: 20px;" loop autoplay>
+                        </lottie-player>
+                    </div>
+
+                    <div class="col-lg-10 col-12 mx-auto">
+                        <div class="timeline-container">
+
+                            <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                                <div class="list-progress">
+                                    <div class="inner"></div>
+                                </div>
+
+                                <li
+                                    style="background-color: #e0f7fa; border-radius: 10px; padding: 25px 25px 25px 90px; position: relative;">
+                                    <div class="icon-holder"
+                                        style="background-color: #00bcd4; position: absolute; left: -50px; top: 20px;">
+                                        <i class="bi bi-lightbulb-fill text-white"></i>
+                                    </div>
+                                    <p class="mb-3 text-dark"><strong>Faciliter l’assimilation</strong> des mécanismes
+                                        immunitaires de manière interactive et ludique grâce à des contenus adaptés au
+                                        niveau collège.</p>
+                                </li>
+
+                                <li
+                                    style="background-color: #f3e5f5; border-radius: 10px; padding: 25px 25px 25px 90px; position: relative;">
+                                    <div class="icon-holder"
+                                        style="background-color: #ab47bc; position: absolute; left: -50px; top: 20px;">
+                                        <i class="bi bi-journal-check text-white"></i>
+                                    </div>
+                                    <p class="mb-3 text-dark"><strong>Encourager la mémorisation active</strong> à
+                                        travers des quiz ciblés sur les défenses de l’organisme, les antigènes, les
+                                        lymphocytes, etc.</p>
+                                </li>
+
+                                <li
+                                    style="background-color: #fff9c4; border-radius: 10px; padding: 25px 25px 25px 90px; position: relative;">
+                                    <div class="icon-holder"
+                                        style="background-color: #fbc02d; position: absolute; left: -50px; top: 20px;">
+                                        <i class="bi bi-graph-up-arrow text-white"></i>
+                                    </div>
+                                    <p class="mb-3 text-dark"><strong>Favoriser l’autonomie</strong> et le suivi
+                                        personnalisé grâce à un système de scores, de feedbacks et de classement.</p>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section section-padding" id="section_3">
+            <div class="section-overlay searchable">
+            </div>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 text-center">
+                        <h2 class="text-black mb-4">Comment procéder sur Immuno-Fun?</h1>
+                    </div>
+
+                    <div class="col-lg-10 col-12 mx-auto">
+                        <div class="timeline-container">
+
+                            <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                                <div class="list-progress">
+
+
+
+                                    <div class="inner"></div>
+                                </div>
+
+                                <li>
+                                    <h4 class="text-black mb-3">Recherchez l’axe à évaluer</h4>
+
+                                    <p class="text-white">Recherchez l’axe pour votre auto-évaluation selon le mot clé
+                                    </p>
+
+                                    <div class="icon-holder">
+                                        <i class="bi-search"></i>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <h4 class="text-black mb-3">Enregistrez votre score et suivez votre avancement!</h4>
+
+                                    <p class="text-white">Le score est +1 pour chaque réponse correcte et 0 pour chaque
+                                        erreur...Continuez votre Quiz en dépit des erreurs..Parce qu’on croit que
+                                        l’erreur n’est pas un obstacle d’apprentissage</p>
+
+                                    <div class="icon-holder">
+                                        <i class="bi-bookmark"></i>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <h4 class="text-black mb-3">Lire &amp; S’amuser</h4>
+
+                                    <p class="text-white">Trouvez des résumés de tous les cours du chapitre Immunologie,
+                                        Défiez vos amis dans les quiz, Apprenez en s’amusant </p>
+
+                                    <div class="icon-holder">
+                                        <i class="bi-book"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center mt-5">
+                        <p class="text-black">
+                            Vous voulez apprendre plus
+                            <a href="https://www.youtube.com/channel/UCLT8uKVAO9WHdX-MpKBEiDw"
+                                class="btn custom-btn custom-border-btn ms-3">Visitez Notre chaine Youtube</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="explore-section section-padding searchable" id="section_4">
+            <div class="container searchable ">
+                <div class="row searchable">
+
+                    <div class="col-12 text-center searchable">
+                        <h2 class="mb-4 searchable">Section Quiz </h1>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container-fluid searchable">
+                <div class="row searchable">
+                    <ul class="nav nav-tabs searchable" id="myTab" role="tablist">
+                        <li class="nav-item searchable" role="presentation">
+                            <button class="nav-link active searchable" id="design-tab" data-bs-toggle="tab"
+                                data-bs-target="#design-tab-pane" type="button" role="tab"
+                                aria-controls="design-tab-pane" aria-selected="true">Quiz</button>
+                        </li>
+
+                        <li class="nav-item searchable" role="presentation">
+                            <button class="nav-link searchable" id="marketing-tab" data-bs-toggle="tab"
+                                data-bs-target="#marketing-tab-pane" type="button" role="tab"
+                                aria-controls="marketing-tab-pane" aria-selected="false">Cours</button>
+                        </li>
+
+                        <li class="nav-item searchable" role="presentation searchable">
+                            <button class="nav-link searchable" id="finance-tab" data-bs-toggle="tab"
+                                data-bs-target="#finance-tab-pane" type="button" role="tab"
+                                aria-controls="finance-tab-pane" aria-selected="false">Classement</button>
+                        </li>
+
+                        <li class="nav-item searchable" role="presentation">
+                            <button class="nav-link searchable" id="music-tab" data-bs-toggle="tab"
+                                data-bs-target="#music-tab-pane" type="button" role="tab" aria-controls="music-tab-pane"
+                                aria-selected="false">Feedback</button>
+                        </li>
+
+                        <li class="nav-item searchable" role="presentation searchable">
+                            <button class="nav-link searchable" id="education-tab" data-bs-toggle="tab"
+                                data-bs-target="#education-tab-pane" type="button" role="tab"
+                                aria-controls="education-tab-pane" aria-selected="false">Jeux</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="design-tab-pane" role="tabpanel"
+                                aria-labelledby="design-tab" tabindex="0">
+                                <div class="row">
+                                    {% for quiz in quiz_list %}
+                                    <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                                        <div class="custom-block bg-white shadow-lg">
+                                            <a href="{% url 'passer_quiz' quiz.id %}">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <h5 class="mb-2">{{ quiz.titre }}</h5>
+                                                        <p class="mb-0">Cours associé : {{ quiz.cours.titre }}</p>
+                                                        <small>Créé le {{ quiz.date_creation|date:"d M Y" }}</small>
+                                                    </div>
+                                                </div>
+                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644978/Q_lkcnty.json"
+                                                    background="transparent" speed="1"
+                                                    style="width: 100%; height: 150px;" loop autoplay>
+                                                </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for resultat in resultats %}
+                                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                        <div class="custom-block bg-white shadow-lg">
+                                            <a href="{% url 'resultat_quiz' resultat.quiz.id %}">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h5 class="mb-2">{{ resultat.quiz.titre }}</h5>
+                                                        <p class="mb-0">Ton score le plus récent</p>
+                                                    </div>
+
+
+                                                    <!-- Badge score lisible et dynamique -->
+                                                    <span style="position: absolute; top: 15px; right: 15px;" class="badge 
+        {% if resultat.score >= 75 %}
+            bg-success
+        {% elif resultat.score >= 50 %}
+            bg-warning
+        {% else %}
+            bg-danger
+        {% endif %}
+        rounded-pill px-3 py-2 text-white fs-6">
+                                                        {{ resultat.score }}%
+                                                    </span>
+
+                                                </div>
+
+                                                <!-- Barre de progression -->
+                                                <div class="progress mt-3" style="height: 6px;">
+                                                    <div class="progress-bar 
+                    {% if resultat.score >= 75 %}
+                        bg-success
+                    {% elif resultat.score >= 50 %}
+                        bg-warning
+                    {% else %}
+                        bg-danger
+                    {% endif %}" role="progressbar" style="width: {{ resultat.score|default:0|floatformat:0 }}%;"
+                                                        aria-valuenow="{{ resultat.score|default:0 }}" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Animation -->
+                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749645039/quiz_i28fx6.json"
+                                                    background="transparent" speed="1"
+                                                    style="width: 100%; height: 150px;" loop autoplay>
+                                                </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <p>Aucun résultat trouvé pour le moment.</p>
+                                    {% endfor %}
+
+
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="marketing-tab-pane" role="tabpanel"
+                                aria-labelledby="marketing-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                        <div class="custom-block bg-white shadow-lg">
+                                            <a href="{% url 'l_cours' %}">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <h5 class="mb-2">Liste des cours</h5>
+
+                                                        <p class="mb-0">Voir tous les cours disponibles</p>
+                                                    </div>
+
+                                                    <span class="badge bg-advertising rounded-pill ms-auto">📌</span>
+                                                </div>
+
+                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749645091/reading_mascotte_adybte.json"
+                                                    background="transparent" style="width: 100%; height: 150px;" loop
+                                                    autoplay>
+                                                </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                        <div class="custom-block bg-white shadow-lg ">
+                                            <a href="{% url 't_cours' %}">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <h5 class="mb-2">Cours</h5>
+
+                                                        <p class="mb-0">Accéder au contenu détaillé</p>
+                                                    </div>
+
+                                                    <span class="badge bg-advertising rounded-pill ms-auto">✅</span>
+                                                </div>
+
+                                                <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644895/cours_zqvh9i.json"
+                                                    background="transparent" style="width: 100%; height: 150px;" loop
+                                                    autoplay>
+                                                </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-12 mb-lg-3">
+                                        <div class="custom-block bg-white shadow-lg demander-cours"
+                                            style="cursor: pointer;">
+
+                                            <div class="d-flex">
+                                                <div>
+                                                    <h5 class="mb-2">Demander un cours</h5>
+
+                                                    <p class="mb-0">Proposer un sujet à ajouter</p>
+                                                </div>
+
+                                                <span class="badge bg-advertising rounded-pill ms-auto">📨</span>
+                                            </div>
+
+                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644951/proposer_qkdczi.json"
+                                                background="transparent" style="width: 100%; height: 150px;" loop
+                                                autoplay>
+                                            </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="finance-tab-pane" role="tabpanel"
+                                aria-labelledby="finance-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
+                                        <div class="custom-block bg-white shadow-lg">
+
+                                            <div class="d-flex">
+                                                <div>
+                                                    <h5 class="mb-2">Classement</h5>
+
+                                                    <p class="mb-0">Découvrez votre classement par rapport à vos amis
+                                                        selon votre score le plus élevé dans le Quiz Immunologie
+                                                    </p>
+                                                </div>
+
+                                                <span class="badge bg-finance rounded-pill ms-auto">🏆</span>
+                                            </div>
+
+                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644881/classement_rzvkhf.json"
+                                                background="transparent" style="width: 100%; height: 150px;" loop
+                                                autoplay>
+                                            </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="custom-block custom-block-overlay">
+                                            <div class="d-flex flex-column h-100">
+
+
+                                                <div class="custom-block-overlay-text d-flex">
+                                                    <div>
+                                                        <h5 class="text-white mb-2">Classement</h5>
+
+                                                        <p class="text-white">Retrouvez ici votre classement </p>
+                                                        <!-- 🏆 Tableau de classement -->
+                                                        <div class="classement-box" style="
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    max-height: 250px;
+    overflow-y: auto;
+    position: relative;
+    left: -10px; /* ❗️sort un peu à gauche */
+    width: calc(100% + 180px); /* ❗️plus large que le conteneur */
+    box-sizing: border-box;
+">
+                                                            <table class="table table-sm table-striped mb-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Rang</th>
+                                                                        <th>Utilisateur</th>
+                                                                        <th>Score</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for entry in classement %}
+                                                                    <tr>
+                                                                        <td>
+                                                                            {% if forloop.counter == 1 %} 🥇
+                                                                            {% elif forloop.counter == 2 %} 🥈
+                                                                            {% elif forloop.counter == 3 %} 🥉
+                                                                            {% else %} {{ forloop.counter }}
+                                                                            {% endif %}
+                                                                        </td>
+                                                                        <td>{{ entry.eleve__username }}</td>
+                                                                        <td>{{ entry.score_total }}</td>
+                                                                    </tr>
+                                                                    {% empty %}
+                                                                    <tr>
+                                                                        <td colspan="3">Aucun score disponible</td>
+                                                                    </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <span class="badge bg-finance rounded-pill ms-auto">🏆</span>
+                                                </div>
+
+
+                                                <div class="section-overlay"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="music-tab-pane" role="tabpanel" aria-labelledby="music-tab"
+                                tabindex="0">
+                                <div class="row">
+                                    <!-- ✅ Carte avec le formulaire -->
+                                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                        <div class="custom-block bg-white shadow-lg open-feedback-popup"
+                                            style="cursor: pointer;">
+                                            <div class="d-flex">
+                                                <div>
+                                                    <h5 class="mb-2">Que pensez-vous?</h5>
+                                                    <p class="mb-0">Clique Ici pour donner ton avis sur Immuno-fun!</p>
+                                                </div>
+
+
+                                                <span class="badge bg-music rounded-pill ms-auto">⭐</span>
+                                            </div>
+                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644916/Feedback_cugskg.json"
+                                                background="transparent" style="width: 100%; height: 150px;" loop
+                                                autoplay>
+                                            </lottie-player>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- ✅ Carte MERCI avec affichage des feedbacks -->
+                                    <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-3">
+                                        <div class="custom-block bg-white shadow-lg">
+                                            <div class="d-flex">
+                                                <div>
+                                                    <h5 class="mb-2">Merci!</h5>
+                                                    <p class="mb-0">Votre avis est notre possibilité d’évoluer..</p>
+                                                </div>
+                                                <span class="badge bg-music rounded-pill ms-auto">⭐</span>
+                                            </div>
+                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644904/F_tbbqvz.json"
+                                                background="transparent" style="width: 100%; height: 150px;" loop
+                                                autoplay>
+                                            </lottie-player>
+
+
+                                            <!-- 👀 Feedbacks affichés UNIQUEMENT ICI -->
+                                            <div style="padding: 15px; max-height: 200px; overflow-y: auto;">
+                                                {% for feedback in feedback_list %}
+                                                <div
+                                                    style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+                                                    <strong>⭐ {{ feedback.note }} / 5</strong><br>
+                                                    <small>{{ feedback.commentaire }}</small>
+                                                </div>
+                                                {% empty %}
+                                                <p>Aucun commentaire pour le moment.</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="tab-pane fade" id="education-tab-pane" role="tabpanel"
+                                aria-labelledby="education-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-12  ">
+                                        <div class="custom-block bg-white shadow-lg" id="openPuzzlePopup"
+                                            style="cursor: pointer;">
+
+                                            <div class="d-flex">
+                                                <div>
+                                                    <h5 class="mb-2">Jouer en Immuno</h5>
+
+                                                    <p class="mb-0">Clique ici pour lancer le puzzle !</p>
+                                                </div>
+
+                                                <span class="badge bg-education rounded-pill ms-auto">🧩 </span>
+                                            </div>
+
+                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644936/jeu_rn4ak0.json"
+                                                background="transparent"
+                                                style="width: 120%; height: 300px; margin-left: -50px; " loop autoplay>
+                                            </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="puzzlePopup" class="popup-form" style="display: none;">
+                                        <h5 class="text-center mb-3">🧬 Puzzle du virus</h5>
+                                        <div id="puzzle-timer" class="text-center fw-bold text-danger mb-2"></div>
+                                        <div id="puzzle-expired" class="text-center fw-bold text-danger mt-3"
+                                            style="display: none;">
+                                            ⏳ Temps écoulé ! Essaie une autre fois 😢
+                                            <br>
+                                            <button onclick="restartPuzzle()"
+                                                class="btn btn-outline-primary mt-2">Rejouer</button>
+                                        </div>
+
+                                        <p class="text-center">Reconstitue l’image en cliquant pour échanger les
+                                            morceaux</p>
+
+                                        <div id="puzzle" class="d-flex flex-wrap justify-content-center"></div>
+                                        <div id="puzzle-success" class="text-success fw-bold text-center mt-3"></div>
+
+                                        <div class="popup-buttons mt-3 d-flex justify-content-center">
+                                            <button type="button" onclick="closePuzzlePopup()"
+                                                class="btn btn-secondary">Fermer</button>
+                                            <p id="timer" style="font-weight: bold; color: darkred; margin-top: 10px;">
+                                            </p>
+                                            <p id="puzzle-success" style="margin-top: 10px;"></p>
+                                            <button id="rejouerBtn" onclick="resetPuzzle()"
+                                                style="display:none; margin-top:10px;" class="btn btn-warning">🔁
+                                                Rejouer</button>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="custom-block bg-white shadow-lg" id="openDropGame"
+                                            style="cursor: pointer;">
+
+                                            <div class="d-flex">
+                                                <div>
+                                                    <h5 class="mb-2">Jouer en Immuno</h5>
+
+                                                    <p class="mb-0">Clique ici pour lancer le jeu! </br>
+                                                        NB: il faut se souvenir des positions des illustrations on ne
+                                                        peut les voir qu’au début de jeu
+                                                    </p>
+                                                </div>
+
+                                                <span class="badge bg-education rounded-pill ms-auto">🎮</span>
+                                            </div>
+
+                                            <lottie-player src="https://res.cloudinary.com/upcloudqr/raw/upload/v1749644942/play_cdwhut.json"
+                                                background="transparent"
+                                                style="width: 130%; height: 250px; margin-left: -100px; margin-top: -20px;"
+                                                loop autoplay>
+                                            </lottie-player>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- 🎮 Popup du jeu drop -->
+                                    <div id="dropGamePopup" class="popup-form" style="display: none;">
+                                        <h5 class="text-center mb-3">🦠 Jeu Drop</h5>
+                                        <p class="text-center">Glisse chaque élément au bon endroit</p>
+
+                                        <div class="drop-infos d-flex justify-content-around flex-wrap mb-3">
+                                            <div class="drop-zone" data-correct="Macrophage">
+                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648972/drop/macrophage_mgg6vm.jpg" alt="Macrophage"
+                                                    class="drop-image">
+                                            </div>
+                                            <div class="drop-zone" data-correct="Lymphocyte T">
+                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648970/drop/lymphocyte_t_wohdeh.jpg"
+                                                    alt="Lymphocyte T" class="drop-image">
+                                            </div>
+
+                                            <div class="drop-zone" data-correct="Anticorps">
+                                                <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648969/drop/anticorps_rscoxn.png" alt="Anticorps"
+                                                    class="drop-image">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="draggables d-flex justify-content-around flex-wrap">
+                                            <div class="draggable" draggable="true" data-value="Anticorps">Anticorps
+                                            </div>
+                                            <div class="draggable" draggable="true" data-value="Lymphocyte T">
+                                                Lymphocyte T</div>
+                                            <div class="draggable" draggable="true" data-value="Macrophage">
+                                                Macrophage</div>
+                                        </div>
+
+                                        <div id="drop-success" class="text-success fw-bold text-center mt-3"></div>
+                                        <div class="popup-buttons mt-3 d-flex justify-content-center gap-2">
+                                            <button class="btn btn-secondary" onclick="closeDropGame()">Fermer</button>
+                                            <button class="btn btn-primary" onclick="restartDropGame()">Rejouer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12">
+                        <h2 class="mb-4">Questions fréquentes</h2>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="col-lg-5 col-12">
+                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749648896/faq_graphic_fy3tyi.jpg" class="img-fluid" alt="FAQs">
+                    </div>
+
+                    <div id="faq" class="col-lg-6 col-12 m-auto">
+                        <div class="accordion" id="accordionExample">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Qui a créé Immuno-Fun?
+                                    </button>
+                                </h2>
+
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        Ce site a été conçu par <strong>Jihane Jait</strong> dans le cadre de son projet
+                                        de fin d’études au CRMEF de Kénitra.<strong>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Comment trouver le chapitre qui m'intéresse ?
+
+                                    </button>
+                                </h2>
+
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        Utilise la <strong>barre de recherche</strong> ou explore les sections de cours
+                                        et quiz pour accéder au contenu lié à chaque chapitre.
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        Est ce que cette application est payante?
+                                    </button>
+                                </h2>
+
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        Non, l’application est totalement <strong>gratuite</strong> pour tous les élèves
+                                        de 3 ème année collège.
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section class="contact-section section-padding section-bg">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 col-12 text-center">
+                        <h2 class="mb-5">Contactez votre Professeur</h2>
+                    </div>
+
+                    <div class="col-lg-5 col-12 mb-4 mb-lg-0">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3297.8363364176103!2d-6.5908427!3d34.2527196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda759f045d1a72f%3A0x9df26f38d725765b!2sCentre%20R%C3%A9gional%20des%20M%C3%A9tiers%20de%20l&#39;Education%20et%20de%20la%20Formation%20-%20K%C3%A9nitra!5e0!3m2!1sfr!2sma!4v1749239014415!5m2!1sfr!2sma"
+                            width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                    </div>
+                    <div
+                        class="col-lg-4 col-12 d-flex justify-content-center align-items-center mb-4 mb-lg-0 position-relative">
+                        <img src="https://res.cloudinary.com/upcloudqr/image/upload/v1749649285/img/terre_mascotte_jqg2tj.png" alt="Mascotte Contact"
+                            class="rotating-mascotte" style="max-width: 260px; height: auto;" id="contactMascotte">
+
+                        <div class="bubble-message" id="contactBubble">
+                            👋 Coucou, tu veux m’écrire ?
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-6 col-12 mb-3 mb-lg- mb-md-0 ms-auto">
+                        <h4 class="mb-3">Centre</h4>
+
+                        <p>CRMEF, Kenitra, Maroc</p>
+
+                        <hr>
+
+                        <p class="d-flex align-items-center mb-1">
+                            <span class="me-2">Téléphone</span>
+
+                            <a href="tel: 305-240-9671" class="site-footer-link">
+                                +212646129910
+                            </a>
+                        </p>
+
+                        <p class="d-flex align-items-center">
+                            <span class="me-2">Email</span>
+
+                            <a href="mailto:info@company.com" class="site-footer-link">
+                                jihane.jaiit@gmail.com
+                            </a>
+                        </p>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer section-padding">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-12 mb-4 pb-2">
+                    <a class="navbar-brand mb-2" href="index.html">
+                        <i class="bi-back"></i>
+                        <span>Immuno-fun</span>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-6 searchable ">
+                    <h6 class="site-footer-title mb-3 searchable">Ressources</h6>
+
+                    <ul class="site-footer-links">
+                        <li class="site-footer-link-item">
+                            <a href="#" class="site-footer-link">Accueil</a>
+                        </li>
+
+                        <li class="site-footer-link-item searchable">
+                            <a href="#" id="openConditions" class="site-footer-link searchable">Conditions
+                                d’utilisation</a>
+                        </li>
+
+
+                        <li class="site-footer-link-item searchable">
+                            <a href="#faq" class="site-footer-link searchable">FAQs</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                    <h6 class="site-footer-title mb-3">Information</h6>
+
+                    <p class="text-white d-flex mb-1">
+                        <a href="tel: 305-240-9671" class="site-footer-link">
+                            +212646129910
+                        </a>
+                    </p>
+
+                    <p class="text-white d-flex">
+                        <a href="mailto:info@company.com" class="site-footer-link">
+                            jihane.jaiit@gmail.com
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Français</button>
+
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button">Anglais</button></li>
+
+                            <li><button class="dropdown-item" type="button">Espanol</button></li>
+
+                            <li><button class="dropdown-item" type="button">Arabe</button></li>
+                        </ul>
+                    </div>
+
+                    <p class="copyright-text mt-lg-5 mt-4">Copyright © Immuno-Fun All rights reserved 2025.
+
+
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/click-scroll.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const bubble = document.getElementById("introBubbleContainer");
+            const section1 = document.getElementById("section_1");
+            const section2 = document.getElementById("section_2");
+            const videoModal = document.getElementById("introModal");
+            const video = document.getElementById("introVideo");
+            const openBtn = document.getElementById("showIntroVideo");
+
+            function toggleBubble() {
+                const section2Top = section2.getBoundingClientRect().top;
+                if (section2Top <= 100) {
+                    bubble.classList.remove("visible");
+                } else {
+                    bubble.classList.add("visible");
+                }
+            }
+
+            // Lancer la vidéo si on clique sur le bouton
+            if (openBtn && videoModal && video) {
+                openBtn.addEventListener("click", () => {
+                    videoModal.style.display = "flex";
+                    video.play();
+                });
+
+                video.addEventListener("ended", () => {
+                    videoModal.style.display = "none";
+                });
+
+                videoModal.addEventListener("click", (e) => {
+                    if (e.target === videoModal) {
+                        video.pause();
+                        videoModal.style.display = "none";
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", toggleBubble);
+            toggleBubble(); // Vérifie au chargement
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("keyword");
+            const searchButton = document.querySelector('button[type="submit"]');
+
+            searchButton.addEventListener("click", (e) => {
+                e.preventDefault(); // Empêche l'envoi du formulaire
+                const keyword = searchInput.value.toLowerCase();
+
+                const elements = document.querySelectorAll('.searchable');
+
+                elements.forEach(el => {
+                    const text = el.textContent.toLowerCase();
+                    if (text.includes(keyword)) {
+                        el.style.display = 'block';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <!-- 🔒 Bulle Conditions -->
+    <div id="conditionsModal" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+">
+        <div style="
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 700px;
+        width: 90%;
+        position: relative;
+    ">
+            <button id="closeConditions" style="
+            position: absolute;
+            top: 10px; right: 15px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+        ">&times;</button>
+
+            <h4>📜 Conditions d’utilisation</h4>
+            <ul style="margin-top: 15px; padding-left: 1.2rem;">
+                <li>Tu t’engages à utiliser cette plateforme uniquement à des fins éducatives.</li>
+                <li>Il est interdit de copier ou redistribuer le contenu sans autorisation.</li>
+                <li>Aucune donnée personnelle n’est collectée ou partagée.</li>
+                <li>Ce site est gratuit et peut évoluer à tout moment.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const openBtn = document.getElementById("openConditions");
+            const modal = document.getElementById("conditionsModal");
+            const closeBtn = document.getElementById("closeConditions");
+
+            // ➤ Ouvrir la bulle
+            if (openBtn && modal) {
+                openBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    modal.style.display = "flex";
+                });
+            }
+
+            // ➤ Fermer avec la croix
+            if (closeBtn) {
+                closeBtn.addEventListener("click", () => {
+                    modal.style.display = "none";
+                });
+            }
+
+            // ➤ Fermer en cliquant en dehors
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const mascotte = document.getElementById("contactMascotte");
+            const bubble = document.getElementById("contactBubble");
+
+            mascotte.addEventListener("mouseenter", () => {
+                bubble.style.display = "block";
+            });
+
+            mascotte.addEventListener("mouseleave", () => {
+                bubble.style.display = "none";
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const demanderCoursBtn = document.querySelector('.demander-cours');
+            const popupForm = document.getElementById('popup-form');
+
+            if (demanderCoursBtn && popupForm) {
+                demanderCoursBtn.addEventListener('click', () => {
+                    popupForm.style.display = 'block';
+                });
+            }
+        });
+
+        function closePopup() {
+            const popupForm = document.getElementById('popup-form');
+            popupForm.style.display = 'none';
+        }
+    </script>
+
+
+    <div id="popup-form" class="popup-form" style="display: none;">
+        <form method="POST" action="{% url 'envoyer_message_cours' %}">
+            {% csrf_token %}
+            <h5>Proposer un nouveau cours</h5>
+            <textarea name="message" placeholder="Votre suggestion..." required></textarea>
+            <input type="email" name="email" placeholder="Votre adresse e-mail (facultatif)">
+            <div class="popup-buttons">
+                <button type="submit">Envoyer</button>
+                <button type="button" onclick="closePopup()">Annuler</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 💬 Bulle de feedback -->
+    <div id="feedback-popup" class="popup-form" style="display: none;">
+        <form method="POST" action="{% url 'envoyer_feedback' %}">
+            {% csrf_token %}
+            <h5>Votre avis compte !</h5>
+            <div style="margin-bottom: 10px;">
+                <label>Note :</label>
+                <div class="star-rating">
+                    <input type="radio" id="star1" name="note" value="1" /><label for="star1">★</label>
+                    <input type="radio" id="star2" name="note" value="2" /><label for="star2">★</label>
+                    <input type="radio" id="star3" name="note" value="3" /><label for="star3">★</label>
+                    <input type="radio" id="star4" name="note" value="4" /><label for="star4">★</label>
+                    <input type="radio" id="star5" name="note" value="5" /><label for="star5">★</label>
+                </div>
+            </div>
+            <textarea name="commentaire" rows="3" class="form-control" placeholder="Votre commentaire..."
+                required></textarea>
+            <div class="popup-buttons">
+                <button type="submit">Envoyer</button>
+                <button type="button" onclick="closeFeedback()">Annuler</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const openBtn = document.getElementById("openPuzzlePopup");
+            const popup = document.getElementById("puzzlePopup");
+            let timerInterval;
+            let remainingTime = 40;
+
+            openBtn.addEventListener("click", () => {
+                popup.style.display = "block";
+                startPuzzle();
+            });
+
+            window.closePuzzlePopup = function () {
+                popup.style.display = "none";
+                clearInterval(timerInterval);
+                resetPuzzleElements();
+            };
+
+            window.resetPuzzle = function () {
+                resetPuzzleElements();
+                startPuzzle();
+            };
+
+            function startPuzzle() {
+                resetPuzzleElements();
+                initPuzzle();
+                startTimer();
+            }
+
+
+            function resetPuzzleElements() {
+                clearInterval(timerInterval);
+                remainingTime = 40;
+                document.getElementById("puzzle").innerHTML = "";
+                document.getElementById("puzzle-success").textContent = "";
+                document.getElementById("timer").textContent = "";
+                document.getElementById("rejouerBtn").style.display = "none";
+            }
+
+            function startTimer() {
+                updateTimerDisplay();
+                timerInterval = setInterval(() => {
+                    remainingTime--;
+                    updateTimerDisplay();
+
+                    if (remainingTime <= 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById("puzzle-success").textContent = "⏰ Temps écoulé ! Essaie une autre fois.";
+                        document.getElementById("rejouerBtn").style.display = "inline-block";
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                document.getElementById("timer").textContent = `🕒 Temps restant : ${minutes}m ${seconds < 10 ? '0' + seconds : seconds}s`;
+            }
+
+            function initPuzzle() {
+                const puzzle = document.getElementById("puzzle");
+                const pieces = [
+                    "https://res.cloudinary.com/upcloudqr/image/upload/v1749648949/puzzle/virus_1_vxdxaf.jpg", "https://res.cloudinary.com/upcloudqr/image/upload/v1749648951/puzzle/virus_2_armmaa.jpg", "https://res.cloudinary.com/upcloudqr/image/upload/v1749648952/puzzle/virus_3_ioab8r.jpg",
+                    "https://res.cloudinary.com/upcloudqr/image/upload/v1749648954/puzzle/virus_4_yeg5sf.jpg", "https://res.cloudinary.com/upcloudqr/image/upload/v1749648955/puzzle/virus_5_edy7wq.jpg", "https://res.cloudinary.com/upcloudqr/image/upload/v1749648956/puzzle/virus_6_docsy5.jpg",
+                    "https://res.cloudinary.com/upcloudqr/image/upload/v1749648958/puzzle/virus_7_ksobvt.jpg", "https://res.cloudinary.com/upcloudqr/image/upload/v1749648960/puzzle/virus_8_aqs9vn.jpg", "https://res.cloudinary.com/upcloudqr/image/upload/v1749648961/puzzle/virus_9_othbbg.jpg"
+                ];
+
+                const shuffled = [...pieces].sort(() => Math.random() - 0.5);
+
+                shuffled.forEach(src => {
+                    const img = document.createElement("img");
+                    img.src = src;
+                    img.classList.add("piece");
+                    img.dataset.correct = src;
+                    puzzle.appendChild(img);
+                });
+                // 🧠 Important : on recrée un nouvel élément DOM sans ancien écouteur
+                const newPuzzle = puzzle.cloneNode(true);
+                puzzle.parentNode.replaceChild(newPuzzle, puzzle);
+
+                let first = null;
+
+                newPuzzle.addEventListener("click", function (e) {
+                    if (e.target.tagName !== "IMG") return;
+
+                    if (!first) {
+                        first = e.target;
+                        first.style.border = "2px solid red";
+                    } else {
+                        const tempSrc = first.src;
+                        const tempCorrect = first.dataset.correct;
+
+                        first.src = e.target.src;
+                        first.dataset.correct = e.target.dataset.correct;
+
+                        e.target.src = tempSrc;
+                        e.target.dataset.correct = tempCorrect;
+
+                        first.style.border = "1px solid #ccc";
+                        first = null;
+
+                        checkWin();
+                    }
+                }); // ✅ Ajout {once: true} pour éviter les bugs d'écouteurs multiples
+            }
+
+            function checkWin() {
+                const allPieces = document.querySelectorAll("#puzzle img");
+                let correct = 0;
+                allPieces.forEach(img => {
+                    const filename = img.src.split("/").pop();
+                    if (filename === img.dataset.correct) correct++;
+                });
+
+                if (correct === 9) {
+                    clearInterval(timerInterval);
+                    document.getElementById("puzzle-success").textContent = "✅ Très bien, continue !";
+                    document.getElementById("rejouerBtn").style.display = "inline-block";
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("dropGamePopup");
+            const openBtn = document.getElementById("openDropGame");
+
+            openBtn.addEventListener("click", () => {
+                popup.style.display = "block";
+                initDropGame();
+            });
+
+            window.closeDropGame = function () {
+                popup.style.display = "none";
+                document.getElementById("drop-success").textContent = "";
+            }
+
+            window.restartDropGame = function () {
+                popup.style.display = "none";
+                setTimeout(() => {
+                    popup.style.display = "block";
+                    initDropGame();
+                }, 300);
+            }
+
+            function initDropGame() {
+                const zones = document.querySelectorAll(".drop-zone");
+                const draggables = document.querySelectorAll(".draggable");
+                const successMsg = document.getElementById("drop-success");
+
+                successMsg.textContent = "";
+
+                zones.forEach(zone => {
+                    // zone.innerHTML = zone.dataset.correct;
+                    zone.style.backgroundColor = "#f8f9fa";
+
+                    zone.ondragover = e => e.preventDefault();
+                    zone.ondrop = e => {
+                        e.preventDefault();
+                        const draggedValue = e.dataTransfer.getData("text/plain");
+                        if (draggedValue === zone.dataset.correct) {
+                            zone.innerHTML = `✅ ${draggedValue}`;
+                            zone.style.backgroundColor = "#d4edda";
+                        } else {
+                            zone.innerHTML = `❌ ${draggedValue}`;
+                            zone.style.backgroundColor = "#f8d7da";
+                        }
+
+                        checkVictory();
+                    };
+                });
+
+                draggables.forEach(drag => {
+                    drag.ondragstart = e => {
+                        e.dataTransfer.setData("text/plain", drag.dataset.value);
+                    };
+                });
+
+                function checkVictory() {
+                    const allCorrect = [...zones].every(z => z.innerHTML.includes("✅"));
+                    if (allCorrect) {
+                        successMsg.textContent = "🎉 Bravo ! Tous les éléments sont bien placés.";
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const openFeedbackCards = document.querySelectorAll('.open-feedback-popup');
+            const feedbackPopup = document.getElementById('feedback-popup');
+
+            openFeedbackCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    feedbackPopup.style.display = 'block';
+                });
+            });
+
+            window.closeFeedback = function () {
+                feedbackPopup.style.display = 'none';
+            };
+        });
+    </script>
+
+    <!-- 🎬 Bulle popup pour la vidéo tutoriel -->
+    <div id="videoPopup" class="popup-form" style="display: none;">
+        <h5 class="text-center mb-3">🎥 Tutoriel</h5>
+        <div class="video-container text-center">
+            <video id="tutorielVideo" controls width="100%" style="max-width: 500px;">
+                <source src="https://res.cloudinary.com/upcloudqr/video/upload/v1749641922/tutoriel_be4wkv.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+        </div>
+        <div class="popup-buttons mt-3 d-flex justify-content-center">
+            <button class="btn btn-secondary" onclick="closeVideoPopup()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoPopup = document.getElementById("videoPopup");
+            const openVideoBtn = document.getElementById("openVideoPopup");
+            const tutorielVideo = document.getElementById("tutorielVideo");
+
+            openVideoBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                videoPopup.style.display = "block";
+                tutorielVideo.currentTime = 0;
+                tutorielVideo.play();
+            });
+
+            window.closeVideoPopup = function () {
+                videoPopup.style.display = "none";
+                tutorielVideo.pause();
+            };
+        });
+    </script>
+
+</body>
+
+</html>
